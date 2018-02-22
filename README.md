@@ -1,6 +1,6 @@
 # Slack Apps
 
-Some informatin on making Slack apps.
+Some information on making Slack apps.
 
 ## Research
 
