@@ -38,3 +38,18 @@ Wait, giant list of walk-throughs for Python, Node and Ruby. [Link](https://botw
 
 
 ### Nicole
+[14 Best Automated Slack Bots for Your Slack Channel](https://www.makeuseof.com/tag/14-best-automated-bots-you-need-for-your-slack-channel/)
+
+* This gives some good ideas for responsive bots and tells you what's already out there.
+
+[12 Slack Bots to Superpower Your Team](https://blog.statsbot.co/12-slack-bots-to-superpower-your-team-e022a9692174)
+
+* This article gives some good examples of bots to boost productivity.
+
+[Slack App or Bot User Integration](https://tutorials.botsfloor.com/slack-app-or-bot-user-integration-842c3843eea8)
+
+* This is a review of what we went over in class that goes over the difference between an app and a bot.
+
+[Building PokeSlacker: A Slack Bot Tutorial](https://blog.insightdatascience.com/building-pok%C3%A9slacker-a-slack-bot-tutorial-c1bc041591bb)
+
+* For anyone who wants to use an API with their Slack app/bot
