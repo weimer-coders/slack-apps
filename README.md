@@ -14,7 +14,18 @@ Help with [Markdown](https://guides.github.com/features/mastering-markdown/).
 
 ### Ryan
 
-### Caitlin
+#### Tools and Documentation
+
+* [python-slackclient | GitHub](https://github.com/slackapi/python-slackclient): As the name suggests this is a python client that allow you to make Slack bots and apps (slaps?) with Slack’s API. There are several other python clients, but this one comes from Slack itself. 
+* [Slack API Documentation | Slack](https://api.slack.com/): Slack’s documentation for their API.
+* [Building Slack apps | Slack](https://api.slack.com/slack-apps): This guide from Slack is light on code but goes in depth into the process of actually setting up a Slack app that can be used by others. They also have a whole page dedicated to [best practices](https://api.slack.com/best-practices) when making Slack apps. 
+
+#### Tutorials and Examples
+
+* [How To Write a Slack Bot — with Python Code Examples | Julian Martinez](https://medium.com/@julianmartinez/how-to-write-a-slack-bot-with-python-code-examples-4ed354407b98): This tutorial walks you through the process of setting up a Slack bot using Python. 
+* [How to Deploy Your Slack Bots to Heroku | Heroku](https://blog.heroku.com/how-to-deploy-your-slack-bots-to-heroku): This is tutorial from Heroku walks you through deploying a Slack bot to Heroku. The process is familiar to anyone who deployed their Twitter bots to Heroku.
+
+#### Caitlin
 In order to make a Slack App or Bot, you need to register for a user_id and an access_token. This [article](https://www.viget.com/articles/how-to-build-your-own-slack-app-and-bot/) explains it really well. In terms of explaining a sample python script, [this](https://www.fullstackpython.com/blog/build-first-slack-bot-python.html) isn't the clearest explanation, but it's good sample code to mess with.
 Wait, giant list of walk-throughs for Python, Node and Ruby. [Link](https://botwiki.org/tutorials/slackbots/).
 ### Gaby
