@@ -31,6 +31,36 @@ Wait, giant list of walk-throughs for Python, Node and Ruby. [Link](https://botw
 
 ### Gaby
 
+
+**Tutorial:** 
+
+ - [Beginner’s guide to your first bot](https://slackhq.com/a-beginner-s-guide-to-your-first-bot-97e5b0b7843d)
+This post includes different tutorials for creating your own Slack Bot. It also links to some interesting bots that people have already made, from bots that track the availability of the office toilet to a bot that schedules air quality reports. 
+
+
+**Applying Slack Bots to journalism/ communications:**
+ - [Journalism Bots: A Quick History and Ideas for Use in Your Newsroom](https://gijn.org/2017/12/11/journalism-bots-a-quick-history-and-ideas-for-use-in-your-newsroom/)
+How can investigative reporters and newsrooms use Slack bots? Look no further than this article! This talks about bots in more general terms, from Facebook chatbots to Twitter bots, but it still is a good source of specific examples of how reporters have used bots successfully and could be a place to draw inspiration from. 
+
+ -  [How publishers are using Slack bots internally and externally](https://digiday.com/uk/article-performance-serving-ads-publishers-using-slack-bots/) 
+ This article discusses how news organizations like Buzzfeed and The New York Times use Slack bots to accomplish tasks around the newsroom. For example, Buzzfeed’s bot sends a notification to editors around the world when a story is doing exceptionally well so that they can decide whether or not to translate the content into another language. The New York Times has Blossom, a Slack bot that is able to predict an article’s success on social media. The Wall Street Journal and The Economist also use Slack bots to help with editorial workflow. 
+
+ - [Slack bots have the keys to your processes. What could go wrong? Well...](https://www.theregister.co.uk/2018/02/28/devops_and_bots_achilles_heel_of_collaborative_software_development/)
+This article discusses the pros and cons of bots, outlining potential pitfalls to avoid. 
+
+ - [The Politics of Bots in Politics](https://medium.com/journalism-innovation/the-politics-of-bots-in-politics-a2e1486f9d94)
+This article discusses how journalists used Slack bots during elections and other political events to achieve different tasks. 
+
+
+**Examples of cool Slack Bots**
+
+ - [Glossary Bot](https://github.com/codeforamerica/glossary-bot)
+Glossary Bot is a Flask app that was built to run on Heroku. It lets users create their own glossary of terms and definitions, and the Github repository is documented very well. 
+
+ - [Quackbot by Quartz](http://www.niemanlab.org/2017/10/if-it-looks-like-a-duck-swims-like-a-duck-and-quacks-like-a-duck-then-its-probably-a-slack-bot-for-journalists/) 
+Quartz has its own BOT STUDIO which is pretty cool. One of the Slack bots this project has produced is Quack Bot, which has several helpful tools for journalists who program. (Also, here is a [news release on Quackbot](https://bots.qz.com/1455/announcing-quackbot-a-slack-bot-for-journalists-from-quartz-and-documentcloud/) and here is [more info on Quartz’s Bot Studio.](http://www.niemanlab.org/2016/11/quartz-launches-its-bot-studio-with-a-quarter-million-from-knight-and-plans-for-slack-and-amazon-echo/) ) 
+
+
 ### Mary-Lou
 [Building Slack apps from Slack](https://api.slack.com/slack-apps)
 
