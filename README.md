@@ -1,3 +1,5 @@
+# Slack Apps
+
 ## What does a Slack App Do?
 Slack Apps allow developers to create additional functionality to their (or any) Slack teams. The apps can do this in a number of ways including providing more information, organizing that information in helpful ways, providing the opportunity to interact with another system (like a CMS), and more.
 
