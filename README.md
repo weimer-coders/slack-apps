@@ -18,18 +18,7 @@ Here are some examples and other listicles of cool Slack apps curated by our tea
 - [Glossary Bot](https://github.com/codeforamerica/glossary-bot)
 - [Quackbot](http://www.niemanlab.org/2017/10/if-it-looks-like-a-duck-swims-like-a-duck-and-quacks-like-a-duck-then-its-probably-a-slack-bot-for-journalists/)
 
-<<<<<<< HEAD
-### Caitlin
-## [How to build your own Slack App and Bot](https://www.viget.com/articles/how-to-build-your-own-slack-app-and-bot/)
-In order to make a Slack App or Bot, you need to register for a user_id and an access_token. This article explains it really well.
-## [Build your first Slack Bot in Python](https://www.fullstackpython.com/blog/build-first-slack-bot-python.html)
-In terms of explaining a sample python script, this includes sample code of what a bot might look like, which may be good to mess around with and deconstruct how Slack bots are written.
-## [Giant list of walk-throughs](https://botwiki.org/tutorials/slackbots/)
-This is a giant list of walk-throughs for Python, Node and (one) Ruby script. It's a good place to find ideas on what you can build, and it's also a good resource to see how others write their code in different languages.
-### Gaby
-=======
 ## API Libraries
->>>>>>> origin/master
 
 You can find lots of information about making and using Slack Apps on their [official documentation website](https://api.slack.com/).
 
