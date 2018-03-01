@@ -1,5 +1,3 @@
-# Slack Apps
-
 ## What does a Slack App Do?
 Slack Apps allow developers to create additional functionality to their (or any) Slack teams. The apps can do this in a number of ways including providing more information, organizing that information in helpful ways, providing the opportunity to interact with another system (like a CMS), and more.
 
@@ -52,10 +50,10 @@ slack = SlackClient(token)
 ### Node
 
 ```javascript
-import SlackAPI from '@slack/client'
+const { WebClient } = require('@slack/client');
 const token = [YOUR_API_TOKEN] // Remember to keep all sensitive information away from Github like this key
 
-const slack = new SlackAPI(token);
+const slack = new WebClient(token);
 ```
 
 ## Slack App Capabilities
@@ -153,6 +151,36 @@ In order to allow Slack to talk to your app, you'll need to build webhooks (also
 
 When you're developing your app, you'll likely have your webhook at a localhost web address which won't work for Slack. Luckily, you can use [ngrok](https://ngrok.com/) to create a "tunnel" from a public link to your localhost.
 
+One thing to note about webhook security: all webhooks have to be public-facing URLs. So that might be cause for some concern if you're making a webhook that can manipulate sensitive data. If anyone knows the URL, they could easily hack you. For that reason, Slack includes a verification token with every request of your webhook. This token is specific to you and you can find it in your app dashboard under `Basic Information`. Make sure to check for the presence and accuracy of that token in all your webhooks before doing that. That looks something like this (although you should probably put it in some kind of middleware to avoid repeating code):
+
+```python
+# Flask
+@app.route('/slack/', methods=['POST'])
+def slack():
+    # Process JSON payload
+    payload = req.get_data()
+    payload = unquote_plus(payload)
+    payload = re.sub('payload=', '', payload)
+    payload = json.loads(payload)
+
+    if payload["token"] != [VERIFICATION_TOKEN]:
+        return (None, 403, None) # 400 is HTTP Code for Forbidden
+
+    # Do Something
+```
+
+```javascript
+// Express
+app.post('/slack/', function (req, res) {
+    if(req.body.token != [VERIFICATION_TOKEN]){
+        res.status(403);
+        res.send();
+    }
+
+    // Do Something
+});
+```
+
 #### Interactive Components
 
 As I said in the last section, you can also include interactive buttons as attachments. To set up your app to receive these interactions you'll have to enable them in your app dashboard under `Interactive Components`. With a URL to an appropriate webhook link (remember it has to be public and HTTPS compatible).
@@ -164,6 +192,28 @@ For help with interactive message components you can check out the official docu
 #### Event Subscriptions
 
 You can also have your app "listen" for certain things in Slack such as `a channel was created` or `a message was posted in a channel`. For a full list of these you can look at [this page](https://api.slack.com/events/api) in the documentation. To setup your app to receive these events you'll have to enable them in your app dashboard under `Event Subscriptions`. From there you can choose the events you want your app to subscribe to and provide a webhook link.
+
+Because this starts a constant stream of webhook hits, you'll need to participate in the url_verification handshake. Whenever you provide a URL as a webhook for events, Slack will immediately send it a `challenge` parameter in the JSON body request to prove that you do in fact have control of that link. You need to have your server read that parameter and respond. That looks something like this:
+
+```python
+# Flask
+@app.route('/slack/', methods=['POST'])
+def slack():
+    # Process JSON payload
+    payload = req.get_data()
+    payload = unquote_plus(payload)
+    payload = re.sub('payload=', '', payload)
+    payload = json.loads(payload)
+
+    return (payload["challenge"], 200, None)
+```
+
+```javascript
+// Express
+app.post('/slack/', function (req, res) {
+    res.send(req.body.challenge);
+});
+```
 
 For help with events you can check out the official documentation [page for this](https://api.slack.com/events-api).
 
