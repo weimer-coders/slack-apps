@@ -1,97 +1,203 @@
 # Slack Apps
 
-Some information on making Slack apps. Some things to maybe look into:
-- Webhooks
-- Interactive messages
-- Slash commands
-- Bot messages
+## What does a Slack App Do?
+Slack Apps allow developers to create additional functionality to their (or any) Slack teams. The apps can do this in a number of ways including providing more information, organizing that information in helpful ways, providing the opportunity to interact with another system (like a CMS), and more.
 
-Help with [Markdown](https://guides.github.com/features/mastering-markdown/).
+There are two types of Slack apps that are built in similar ways.
 
-## Research
+The first is internal apps which are not published on the Slack App Store but rather live only on your team. These apps might include sensitive company information or access or may be so niche, other teams wouldn't need them.
+
+The other type of app is distributed apps. These apps are meant to be published and shared with the world so that they can be installed and used in any Slack team. Make sure these apps don't include any access to your personal company systems or else you could be hacked (if it even makes it past the Slack app reviewers). Because these apps are public they have to go through an extra step of approval by Slack.
+
+## Slack App Examples
+
+You can find the [list of all public apps](https://slack.com/apps/) on the Slack website.
+
+Here are some examples and other listicles of cool Slack apps curated by our team:
+- [15 of the Best Slack Apps, Integrations & Bots to Try](https://blog.hubspot.com/marketing/slack-apps-integrations)
+- [14 Best Automated Bots You Need for Your Slack Channel](https://www.makeuseof.com/tag/14-best-automated-bots-you-need-for-your-slack-channel/)
+- [12 Slack Bots to Superpower Your Team](https://blog.statsbot.co/12-slack-bots-to-superpower-your-team-e022a9692174)
+- [Glossary Bot](https://github.com/codeforamerica/glossary-bot)
+- [Quackbot](http://www.niemanlab.org/2017/10/if-it-looks-like-a-duck-swims-like-a-duck-and-quacks-like-a-duck-then-its-probably-a-slack-bot-for-journalists/)
+
+## API Libraries
+
+You can find lots of information about making and using Slack Apps on their [official documentation website](https://api.slack.com/).
+
+But depending on which programming language you're using, it's recommended you use one of their many client libraries. Here's a list of some (these libraries were built and maintained by Slack):
+- [Python](https://github.com/slackapi/python-slackclient)
+- [Node](https://github.com/slackapi/node-slack-sdk)
+
+You can also find great tutorials and base examples for common tasks on the [Slack Github page](https://github.com/slackapi).
+
+## Setting Up Your Slack App
+
+Once you have your programming language of choice and your project set up you'll quickly notice you need an API key. To get one you'll need to have access to a Slack team of your own. Once you sign in on `yourdomain.slack.com` website you can make a new app by going to [this link](https://api.slack.com/apps?new_app=1). For help making a new app you can check out the official documentation [page for this](https://api.slack.com/slack-apps#creating_apps).
+
+You'll need to set up the correct permission scopes and other capabilities of your app AND install it on your team (yes it needs to be installed even if you choose the team as the `Development Workspace`) before you can get an API Token.
+
+Once your app is set up you can get your API tokens in the `OAuth & Permissions` section of your app admin.
+
+Then you can create the proper API object with the following code:
+
+### Python
+
+```python
+from slackclient import SlackClient
+token = [YOUR_API_TOKEN] // Remember to keep all sensitive information away from Github like this key
+
+slack = SlackClient(token)
+```
+
+### Node
+
+```javascript
+import SlackAPI from '@slack/client'
+const token = [YOUR_API_TOKEN] // Remember to keep all sensitive information away from Github like this key
+
+const slack = new SlackAPI(token);
+```
+
+## Slack App Capabilities
+
+### Having Your App Talk to Slack
+
+#### Basic Messages
+
+The easiest way to make your app do anything is to give it a bot user. Bot users are used to talk to members of your Slack team through code. If you have it setup properly you can post messages easily using the postMessage function on your API object.
+
+```python
+slack.api_call(
+  "chat.postMessage",
+  channel=channel_Id,
+  text="Hello World!",
+)
+```
+
+### Node
+
+```javascript
+slack.chat.postMessage(channelId, 'Hello World!')
+```
+
+For help posting messages you can check out the official documentation [page for this](https://api.slack.com/docs/messages).
+
+#### More Complex Messages
+
+Slack apps have the capability to format messages in much cleaner ways than human users can by leveraging the power of attachments. These attachments can be images, links, other text, or even interactive components (see next section).
+
+Let's take a look at what one of these messages look like.
+
+![Complex Messages](https://a.slack-edge.com/bfaba/img/api/messages-full-featured.png)
+
+And now let's take a look at the code for this message:
+```javascript
+{
+    "text": "New comic book alert!",
+    "attachments": [
+        {
+            "title": "The Further Adventures of Slackbot",
+            "fields": [
+                {
+                    "title": "Volume",
+                    "value": "1",
+                    "short": true
+                },
+                {
+                    "title": "Issue",
+                    "value": "3",
+            "short": true
+                }
+            ],
+            "author_name": "Stanford S. Strickland",
+            "author_icon": "http://a.slack-edge.com/7f18https://a.slack-edge.com/bfaba/img/api/homepage_custom_integrations-2x.png",
+            "image_url": "http://i.imgur.com/OJkaVOI.jpg?1"
+        },
+        {
+            "title": "Synopsis",
+            "text": "After @episod pushed exciting changes to a devious new branch back in Issue 1, Slackbot notifies @don about an unexpected deploy..."
+        },
+        {
+            "fallback": "Would you recommend it to customers?",
+            "title": "Would you recommend it to customers?",
+            "callback_id": "comic_1234_xyz",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": [
+                {
+                    "name": "recommend",
+                    "text": "Recommend",
+                    "type": "button",
+                    "value": "recommend"
+                },
+                {
+                    "name": "no",
+                    "text": "No",
+                    "type": "button",
+                    "value": "bad"
+                }
+            ]
+        }
+    ]
+}
+```
+
+The first thing to notice is that the image above has four sections (divided by the gray lines to the left of each section). There are also four objects in attachments. That's not a coincidence.
+
+There's a lot that goes into building these kinds of messages and the Slack documentation explains it best. For help with message attachments you can check out the official documentation [page for this](https://api.slack.com/docs/message-attachments). You can also test your attachments with their [message builder](https://api.slack.com/docs/messages/builder).
 
 
+### Having Slack Talk To Your App
 
-### Ryan
+In order to allow Slack to talk to your app, you'll need to build webhooks (also known as a REST API) into your app. You can watch [this video](https://www.youtube.com/watch?v=7YcW25PHnAA) for a good explanation of what a REST API is and check out [this gist](https://gist.github.com/brizandrew/e5ff878f8e3c17386de037c201386dc1) to see an example of a simple Flask app with webhooks.
 
-#### Tools and Documentation
+When you're developing your app, you'll likely have your webhook at a localhost web address which won't work for Slack. Luckily, you can use [ngrok](https://ngrok.com/) to create a "tunnel" from a public link to your localhost.
 
-* [python-slackclient | GitHub](https://github.com/slackapi/python-slackclient): As the name suggests this is a python client that allow you to make Slack bots and apps (slaps?) with Slack’s API. There are several other python clients, but this one comes from Slack itself. 
-* [Slack API Documentation | Slack](https://api.slack.com/): Slack’s documentation for their API.
-* [Building Slack apps | Slack](https://api.slack.com/slack-apps): This guide from Slack is light on code but goes in depth into the process of actually setting up a Slack app that can be used by others. They also have a whole page dedicated to [best practices](https://api.slack.com/best-practices) when making Slack apps. 
+#### Interactive Components
 
-#### Tutorials and Examples
+As I said in the last section, you can also include interactive buttons as attachments. To set up your app to receive these interactions you'll have to enable them in your app dashboard under `Interactive Components`. With a URL to an appropriate webhook link (remember it has to be public and HTTPS compatible).
 
-* [How To Write a Slack Bot — with Python Code Examples | Julian Martinez](https://medium.com/@julianmartinez/how-to-write-a-slack-bot-with-python-code-examples-4ed354407b98): This tutorial walks you through the process of setting up a Slack bot using Python. 
-* [How to Deploy Your Slack Bots to Heroku | Heroku](https://blog.heroku.com/how-to-deploy-your-slack-bots-to-heroku): This is tutorial from Heroku walks you through deploying a Slack bot to Heroku. The process is familiar to anyone who deployed their Twitter bots to Heroku.
+Once you've done that, any button pressed on any message created by your app will send a POST request to that link. You can differentiate between different actions by using the `callback_id` in your attachment.
 
-### Caitlin
-In order to make a Slack App or Bot, you need to register for a user_id and an access_token. This [article](https://www.viget.com/articles/how-to-build-your-own-slack-app-and-bot/) explains it really well. In terms of explaining a sample python script, [this](https://www.fullstackpython.com/blog/build-first-slack-bot-python.html) isn't the clearest explanation, but it's good sample code to mess with.
-Wait, giant list of walk-throughs for Python, Node and Ruby. [Link](https://botwiki.org/tutorials/slackbots/).
+For help with interactive message components you can check out the official documentation [page for this](https://api.slack.com/interactive-messages).
 
-### Gaby
+#### Event Subscriptions
 
+You can also have your app "listen" for certain things in Slack such as `a channel was created` or `a message was posted in a channel`. For a full list of these you can look at [this page](https://api.slack.com/events/api) in the documentation. To setup your app to receive these events you'll have to enable them in your app dashboard under `Event Subscriptions`. From there you can choose the events you want your app to subscribe to and provide a webhook link.
 
-**Tutorial:** 
-
- - [Beginner’s guide to your first bot](https://slackhq.com/a-beginner-s-guide-to-your-first-bot-97e5b0b7843d)
-This post includes different tutorials for creating your own Slack Bot. It also links to some interesting bots that people have already made, from bots that track the availability of the office toilet to a bot that schedules air quality reports. 
+For help with events you can check out the official documentation [page for this](https://api.slack.com/events-api).
 
 
-**Applying Slack Bots to journalism/ communications:**
- - [Journalism Bots: A Quick History and Ideas for Use in Your Newsroom](https://gijn.org/2017/12/11/journalism-bots-a-quick-history-and-ideas-for-use-in-your-newsroom/)
-How can investigative reporters and newsrooms use Slack bots? Look no further than this article! This talks about bots in more general terms, from Facebook chatbots to Twitter bots, but it still is a good source of specific examples of how reporters have used bots successfully and could be a place to draw inspiration from. 
+#### Slash Commands
 
- -  [How publishers are using Slack bots internally and externally](https://digiday.com/uk/article-performance-serving-ads-publishers-using-slack-bots/) 
- This article discusses how news organizations like Buzzfeed and The New York Times use Slack bots to accomplish tasks around the newsroom. For example, Buzzfeed’s bot sends a notification to editors around the world when a story is doing exceptionally well so that they can decide whether or not to translate the content into another language. The New York Times has Blossom, a Slack bot that is able to predict an article’s success on social media. The Wall Street Journal and The Economist also use Slack bots to help with editorial workflow. 
+A final way to have Slack talk to your app is through user slash commands. Essentially this lets users call your app and provide it information. Think of it as letting Slack users call specific functions in your app. The syntax for using a Slash command in Slack is:
 
- - [Slack bots have the keys to your processes. What could go wrong? Well...](https://www.theregister.co.uk/2018/02/28/devops_and_bots_achilles_heel_of_collaborative_software_development/)
-This article discusses the pros and cons of bots, outlining potential pitfalls to avoid. 
+```
+/name-of-command some text as an argument
+```
 
- - [The Politics of Bots in Politics](https://medium.com/journalism-innovation/the-politics-of-bots-in-politics-a2e1486f9d94)
-This article discusses how journalists used Slack bots during elections and other political events to achieve different tasks. 
+Notice that the name of your command has to be a single word, and every word after that will be passed as an argument to your webhook link.
 
+So you have to set that up first by (you guessed it) going to your app dashboard and going to the `Slash Commands` tab. From there you can give your command a name, and even give each one their own webhook URL.
 
-**Examples of cool Slack Bots**
+For help with slash commands you can check out the official documentation [page for this](https://api.slack.com/slash-commands).
 
- - [Glossary Bot](https://github.com/codeforamerica/glossary-bot)
-Glossary Bot is a Flask app that was built to run on Heroku. It lets users create their own glossary of terms and definitions, and the Github repository is documented very well. 
+## A Note On Tutorials
 
- - [Quackbot by Quartz](http://www.niemanlab.org/2017/10/if-it-looks-like-a-duck-swims-like-a-duck-and-quacks-like-a-duck-then-its-probably-a-slack-bot-for-journalists/) 
-Quartz has its own BOT STUDIO which is pretty cool. One of the Slack bots this project has produced is Quack Bot, which has several helpful tools for journalists who program. (Also, here is a [news release on Quackbot](https://bots.qz.com/1455/announcing-quackbot-a-slack-bot-for-journalists-from-quartz-and-documentcloud/) and here is [more info on Quartz’s Bot Studio.](http://www.niemanlab.org/2016/11/quartz-launches-its-bot-studio-with-a-quarter-million-from-knight-and-plans-for-slack-and-amazon-echo/) ) 
+Unlike many other API documentation, Slack's API documentation does a fantastic job explaining each part of their API filled with tutorials and examples of their own in an intuitively organized website. I highly recommend you use that as your tutorial of choice.
 
+## Tutorials From Around The Web
 
-### Mary-Lou
-[Building Slack apps from Slack](https://api.slack.com/slack-apps)
+With that being said, however, here are some tutorials from around the web curated by the team:
+- [A beginner’s guide to your first bot](https://slackhq.com/a-beginner-s-guide-to-your-first-bot-97e5b0b7843d)
+- [How To Write a Slack Bot — with Python Code Examples](https://medium.com/@julianmartinez/how-to-write-a-slack-bot-with-python-code-examples-4ed354407b98)
+- [How to Deploy Your Slack Bots to Heroku](https://blog.heroku.com/how-to-deploy-your-slack-bots-to-heroku)
+- [Building PokéSlacker: A Slack Bot Tutorial](https://blog.insightdatascience.com/building-pok%C3%A9slacker-a-slack-bot-tutorial-c1bc041591bb)
 
-* Here is Slack’s overview for building Slack apps. I think it is useful because it is Slack itself explaining Slack apps to you.
+## Other Interesting Readings
+- [How publishers are using Slack bots internally and externally](https://digiday.com/uk/article-performance-serving-ads-publishers-using-slack-bots/): A window into how news organizations like Buzzfeed and The New York Times use Slack bots to accomplish tasks around the newsroom.
+-
 
-[App directory](https://slack.com/apps/category/At0EFWTR6D-featured)
+## Credits
 
-* Here is the Slack app directory, which can be useful for us when we consider what kind of app we want to create so that way it is a new, fresh idea that someone hasn’t already created.
-
-[App examples](https://blog.hubspot.com/marketing/slack-apps-integrations)
-
-* This blog post gives examples of 15 different Slack apps, and I think it offers a wide variety for what we can do. Some are outright helpful for a newsroom, such as pooling together people’s contacts, and some are more fun, such as adding the gifs to conversations. So I think this gives a good, general overview of some ideas we might have. 
-
-[Slack bots](https://zapier.com/blog/how-to-build-chat-bot/)
-
-* This article is nice because it not only discusses how to build a Slack bot, but it discusses what a bot is (although we probably already understand that) and what types of bots you can make. So it gives us an overview of every part of the process we need. 
-
-
-### Nicole
-[14 Best Automated Slack Bots for Your Slack Channel](https://www.makeuseof.com/tag/14-best-automated-bots-you-need-for-your-slack-channel/)
-
-* This gives some good ideas for responsive bots and tells you what's already out there.
-
-[12 Slack Bots to Superpower Your Team](https://blog.statsbot.co/12-slack-bots-to-superpower-your-team-e022a9692174)
-
-* This article gives some good examples of bots to boost productivity.
-
-[Slack App or Bot User Integration](https://tutorials.botsfloor.com/slack-app-or-bot-user-integration-842c3843eea8)
-
-* This is a review of what we went over in class that goes over the difference between an app and a bot.
-
-[Building PokeSlacker: A Slack Bot Tutorial](https://blog.insightdatascience.com/building-pok%C3%A9slacker-a-slack-bot-tutorial-c1bc041591bb)
-
-* For anyone who wants to use an API with their Slack app/bot
+This post was written by [Andrew Briz](https://github.com/brizandrew) with sources and links provided by [Mary-Lou Watkinson](https://github.com/orgs/weimer-coders/people/M-Watkinson), [Gabrielle Calise](https://github.com/orgs/weimer-coders/people/gabriellecalise), [Ryan Serpico](https://github.com/orgs/weimer-coders/people/zuckerco), [Nicole Dan](https://github.com/orgs/weimer-coders/people/nicoledan), and [Caitlin Ostroff](https://github.com/orgs/weimer-coders/people/ceostroff)
