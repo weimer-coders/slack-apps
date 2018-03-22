@@ -157,15 +157,10 @@ One thing to note about webhook security: all webhooks have to be public-facing 
 
 ```python
 # Flask
+from flask import request
 @app.route('/slack/', methods=['POST'])
 def slack():
-    # Process JSON payload
-    payload = req.get_data()
-    payload = unquote_plus(payload)
-    payload = re.sub('payload=', '', payload)
-    payload = json.loads(payload)
-
-    if payload["token"] != [VERIFICATION_TOKEN]:
+    if request.form["token"] != [VERIFICATION_TOKEN]:
         return (None, 403, None) # 400 is HTTP Code for Forbidden
 
     # Do Something
@@ -173,6 +168,7 @@ def slack():
 
 ```javascript
 // Express
+
 app.post('/slack/', function (req, res) {
     if(req.body.token != [VERIFICATION_TOKEN]){
         res.status(403);
@@ -199,15 +195,10 @@ Because this starts a constant stream of webhook hits, you'll need to participat
 
 ```python
 # Flask
+from flask import request
 @app.route('/slack/', methods=['POST'])
 def slack():
-    # Process JSON payload
-    payload = req.get_data()
-    payload = unquote_plus(payload)
-    payload = re.sub('payload=', '', payload)
-    payload = json.loads(payload)
-
-    return (payload["challenge"], 200, None)
+    return (request.form["challenge"], 200, None)
 ```
 
 ```javascript
